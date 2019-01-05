@@ -90,6 +90,7 @@ class Game:#todo this class was gaven
             addX += 1
         else:
             addY += 1
+            #todo to add to return tup or list that shows from what location the winning 
         if "rrrr" in string_check:
             return "r"
         if "yyyy" in string_check:
@@ -109,6 +110,7 @@ def side_checks(matrix, orientaion):
         if orientaion == 1:
             j = len(matrix[i]) - 1
             while (j > len(matrix) - 4):
+                #todo to add to return tup or list that shows from what location the winning 
                 if (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
                     j - 3] == "r"):
                     return "r"
