@@ -7,7 +7,7 @@ class Info(Frame):
     def __init__(self, master=None):
         Frame.__init__(self)
         self.configure(width=500, height=100)
-        writing_profile = font.Font(self, size=20, family='Arial')
+        writing_profile = font.Font(self, size=25, family='Arial')
         self.t = Label(self, text="connect 4", font=writing_profile, bg="cyan", fg="purple2")
         self.t.grid(sticky=NSEW, pady=10)
 
@@ -76,10 +76,13 @@ class Terrain(Canvas):
                 info.t.config(text="red make a move")
                 self.fill = "red"
 
-            elif self.player == 2:  # or only else
+            else:
+                # self.player == 2  # or only else
                 self.player = 1
                 info.t.config(text="yellow make a move")
                 self.fill = "yellow"
+            for i in self.p:
+                print(i)
 
 
 root = Tk()
@@ -87,7 +90,7 @@ root.geometry("500x550")
 root.title("The most epic game ever!!!!")
 # ---------- collors
 root["bg"] = "cyan"
-root.resizable(False, False)
+# root.resizable(False, False)
 
 info = Info(root)
 info.grid(row=0, column=0)
@@ -108,6 +111,7 @@ def rein():
     t.grid(row=1, column=0)
 
 
-Button(root, text="put bottons here", bg="pink", command=rein).grid(row=2, column=0, pady=30)
+Button(root, text="options", bg="pink", command=rein).grid(row=2, column=0, pady=10)
+
 
 root.mainloop()
