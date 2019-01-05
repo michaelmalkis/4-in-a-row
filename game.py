@@ -63,6 +63,51 @@ class Game:#todo this class was gaven
 
     def get_current_player(self):#todo this function name was given
         return self.cur_player
+    
+    #---------------------------------------------------------------
+    
+    def find_row_or_col_winner(matrix, row, col):
+    if row == 1:
+        check1 = len(matrix[0])
+        check2 = len(matrix)
+    else:
+        check1 = len(matrix)
+        check2 = len(matrix[0])
+
+    list_string = []
+    addX = 0
+    addY=0
+    print(check1)
+    for i in range(check1):
+        row_index = 0
+        col_index = 0
+        string_check = ""
+        for j in range(check2):
+            print("check row", row_index)
+            print("check col", col_index)
+            string_check += str(matrix[row_index+addY][col_index+addX])
+            row_index += row
+            col_index += col
+        if col == 0:
+            addX += 1
+        else:
+            addY += 1
+        list_string.append(string_check)
+
+        print("-----------------------------------")
+
+    return list_string
+
+
+a = [["x", "r", "x"], ["x", "r", "x"],["x","r","x"],["x","x","x","x"]]
+for i in a:
+    print(i)
+
+print(find_row_or_col_winner(a, 1, 0))
+#------------------------------------------------------------------------------------------------
+    
+    
+    
 
 if __name__ == '__main__':
     a = [1,2,3,4,5]
