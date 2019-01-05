@@ -1,0 +1,10 @@
+DEFAULT_FONT = ("Helvetica", 20)
+RANDOM_NAMES1 = ["KingSlayer", "Littlefinger"]
+RANDOM_NAMES2 = ["Daenerys", "Khal_Drogo"]
+DEFAULT_WIDGET_BG = "lightgreen"
+DEFAULT_HIGHLIGHT_COLOR = "salmon"
+DEFAULT_ACTIVE_COLOR = "navy"
+DEFAULT_ENTRY_COLOR = "paleturquoise"
+ENTRY_WIDTH = 10
+NAME_LIMIT = 9
+WAIT_TIME = 0.7
