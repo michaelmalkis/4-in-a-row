@@ -104,6 +104,30 @@ for i in a:
     print(i)
 
 print(find_row_or_col_winner(a, 1, 0))
+
+
+def side_checks(matrix, orientaion):
+    for i in range(3):
+        if orientaion == 1:
+            j = len(matrix[i]) - 1
+            while (j > len(matrix) - 4):
+                if (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
+                    j - 3] == "r"):
+                    return "r"
+                elif (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
+                    j - 3] == "yellow"):
+                    return "y"
+                j -= 1
+        else:
+            for j in range(3):
+                if (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
+                    j + 3] == "r"):
+                    return "r"
+                elif (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
+                    j + 3] == "yellow"):
+                    return "y"
+    return "n"
+
 #------------------------------------------------------------------------------------------------
     
     
