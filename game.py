@@ -73,10 +73,8 @@ class Game:#todo this class was gaven
     else:
         check1 = len(matrix)
         check2 = len(matrix[0])
-
-    list_string = []
     addX = 0
-    addY=0
+    addY = 0
     print(check1)
     for i in range(check1):
         row_index = 0
@@ -85,18 +83,18 @@ class Game:#todo this class was gaven
         for j in range(check2):
             print("check row", row_index)
             print("check col", col_index)
-            string_check += str(matrix[row_index+addY][col_index+addX])
+            string_check += str(matrix[row_index + addY][col_index + addX])
             row_index += row
             col_index += col
         if col == 0:
             addX += 1
         else:
             addY += 1
-        list_string.append(string_check)
-
-        print("-----------------------------------")
-
-    return list_string
+        if "rrrr" in string_check:
+            return "r"
+        if "yyyy" in string_check:
+            return "y"
+    return "n"
 
 
 a = [["x", "r", "x"], ["x", "r", "x"],["x","r","x"],["x","x","x","x"]]
