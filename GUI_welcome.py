@@ -18,6 +18,10 @@ class Connect4GUIStartup(object):
 
         self.players_frame = tk.Frame(master=self.root, background=DEFAULT_WIDGET_BG)
         self.players_frame.grid(row=3, column=0, sticky=tk.EW, columnspan=4, padx=[10, 10], pady=[10, 0])
+        self.player1_lab = tk.Label(master=self.players_frame,
+                                    text="Player 1:", font=DEFAULT_FONT,
+                                    background=DEFAULT_WIDGET_BG)
+        self.player1_lab.grid(row=0, column=0, sticky=tk.NE)
         self.player1_name = tk.StringVar(master=self.players_frame)
         self.player1_name.trace("w", self.limit_player_len)
         self.player1_entry = tk.Entry(master=self.players_frame, textvariable=self.player1_name, font=DEFAULT_FONT,
