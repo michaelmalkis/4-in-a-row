@@ -43,17 +43,43 @@ class Game:  # todo this class was gaven
         return True
 
     def get_winner(self):  # todo this function name was given, #todo get done!
-        check_rows = self.find_row_or_col_winner(1, 0)
+        check_cols = self.find_row_or_col_winner(1, 0)
+        # todo check if it runs on rows
+        print("check_cols:",check_cols)#todo remove
+        if check_cols[0] != "n":
+            self.winning_pos(check_cols[1], 0, 1)
+            print("col found result:", self.find_row_or_col_winner(1, 0), "starting location", self.winner)
+            return check_cols[0]
+        # todo to check if it runs in col
+        check_rows = self.find_row_or_col_winner(0, 1)
+        print("check_row:",check_rows)
         if check_rows[0] != "n":
-            pass
-            # win_locations =
-        # check_cols = self.find_row_or_col_winner(0, 1)
-        pass
+            self.winning_pos(check_rows[1], 1, 0)
+            print("col found result:", self.find_row_or_col_winner(0, 1), "starting location", self.winner)
+            return check_rows[0]
+
+        # todo to check if it runs on sides the currect way
+        # todo goes up and to the right
+        check_orientaion1 = self.side_checks(1)
+        print("check_orientaion1:",check_orientaion1)
+        if check_orientaion1[0] != "n":
+            self.winning_pos(check_orientaion1[1], -1, 1)
+            print("sides up rigt-result:",self.side_checks(1),"starting location",self.winner)
+            return check_orientaion1[0]
+
+        # todo to check if it runs on sides the currect way
+        # todo goes down and to the right
+        check_orientaion = self.side_checks(0)
+        print("check_orientaion:",check_orientaion)
+        if check_orientaion[0] != "n":
+            self.winning_pos(check_orientaion[1], 1, 1)
+            print("sides up rigt-result:", self.side_checks(0), "starting location", self.winner)
+            return check_orientaion[0]
 
     def winning_pos(self, winning_loc, x_move, y_move):
         y_loc, x_loc = winning_loc
         for i in range(4):
-            self.winner.append((x_loc,y_loc))
+            self.winner.append((y_loc, x_loc))
             x_loc += x_move
             y_loc += y_move
 
@@ -103,7 +129,6 @@ class Game:  # todo this class was gaven
             check2 = len(matrix[0])
         addX = 0
         addY = 0
-        print(check1)
         string_check = ""
         save_i = 0
         for i in range(check1):
@@ -112,8 +137,6 @@ class Game:  # todo this class was gaven
             col_index = 0
             string_check = ""
             for j in range(check2):
-                print("check row", row_index, "-", addY, "check col:", col_index, "-", addX)
-
                 string_check += str(matrix[row_index + addY][col_index + addX])
                 row_index += run_on_x
                 col_index += run_on_y
@@ -137,32 +160,33 @@ class Game:  # todo this class was gaven
                     return "2", (save_i, (string_check.find("2222")))
         return "n", (-1, -1)  # defualt value of index of not found what we were looking for as excepted in the world
 
-    def side_checks(matrix, orientaion):
+    def side_checks(self, orientaion):
+        matrix=self.play_board
         for i in range(3):
             if orientaion == 1:
                 j = len(matrix[i]) - 1
                 while (j > len(matrix) - 4):
-                    # todo to add to return tup or list that shows from what location the winning
                     if (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
-                        j - 3] == "1"):
+                        j - 3] == 1):
                         return "1", (i, j)  # to check if returns the currect possition
                     elif (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
-                        j - 3] == "2"):
+                        j - 3] == 2):
                         return "2", (i, j)  # to check if returns the currect possition
+                    # print(i,"-",j ,"|", i + 1,"-",j - 1,"|" ,i + 2,"-",j - 2,"|" ,i + 3,"-", j - 3)
                     j -= 1
             else:
-                for j in range(3):
+                for j in range(4):
                     if (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
-                        j + 3] == "1"):
+                        j + 3] == 1):
                         return "1", (i, j)  # to check if returns the currect possition
                     elif (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
-                        j + 3] == "2"):
+                        j + 3] == 2):
                         return "2", (i, j)  # to check if returns the currect possition
+                    print(i, "-", j, "|", i + 1, "-", j + 1, "|", i + 2, "-", j + 2, "|", i + 3, "-", j + 3)
         return "n", (-1, -1)  # possition
 
 
-
-def find_row_or_col_winner(matrix ,run_on_x, run_on_y):
+def find_row_or_col_winner(matrix, run_on_x, run_on_y):
     # matrix = self.play_board
     if run_on_x == 1:
         check1 = len(matrix[0])
@@ -181,7 +205,6 @@ def find_row_or_col_winner(matrix ,run_on_x, run_on_y):
         col_index = 0
         string_check = ""
         for j in range(check2):
-            print("check row", row_index, "-", addY, "check col:", col_index, "-", addX)
 
             string_check += str(matrix[row_index + addY][col_index + addX])
             row_index += run_on_x
@@ -207,6 +230,7 @@ def find_row_or_col_winner(matrix ,run_on_x, run_on_y):
                 return "2", (save_i, (string_check.find("2222")))
     return "n", (-1, -1)  # defualt value of index of not found what we were looking for as excepted in the world
 
+
 # --------------------------------------------------------------
 
 a = [["0", "1", "0", "0", "1", "1", "1"],
@@ -217,9 +241,10 @@ a = [["0", "1", "0", "0", "1", "1", "1"],
      ["0", "0", "0", "0", "0", "0", "0"]]
 
 # print(a[0][3], 33333333333333)
-print(find_row_or_col_winner(a,0,1))
+# print(find_row_or_col_winner(a, 0, 1))
 if __name__ == '__main__':
-    a = [1, 2, 3, 4, 5]
-    print(m for m in a)
+    pass
+    # a = [1, 2, 3, 4, 5]
+    # print(m for m in a)
 
 # ------------------------------------------------------------------------------------------------
