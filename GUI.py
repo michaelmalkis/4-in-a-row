@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import font
+from game import *
 
 
 class Info(Frame):
@@ -29,7 +30,7 @@ class HolesInBoard(object):
         self.fill = fill
 
     def changeCollorWinner(self, fill):
-        self.can.itemconfigure(self.HolesInBoard, fill=fill, outline="light grey",width=5)
+        self.can.itemconfigure(self.HolesInBoard, fill=fill, outline="light grey", width=5)
         # Frame(root, highlightbackground="green", highlightcolor="green", highlightthickness=1, width=100, height=100, bd= 0)
 
         self.fill = fill
@@ -40,7 +41,7 @@ class Terrain(Canvas):
     def __init__(self, master=None):
         Canvas.__init__(self)
         self.configure(width=500, height=400, bg="blue")
-
+        self.game = Game()
         self.player = 1
         self.fill = "yellow"
         self.p = []
@@ -50,36 +51,50 @@ class Terrain(Canvas):
                 list_range.append(HolesInBoard(j, i, self))
 
             self.p.append(list_range)
-
         self.bind("<Button-1>", self.detCol)
 
     def detCol(self, event):
         col = int(event.x / 71)
-        row_save = 0
-        for row in range(len(self.p)):
-            if self.p[0][col].fill == "red" or self.p[0][col].fill == "yellow":
-                return
+        old_pos = self.game.get_pos_change()
+        old_player = self.game.get_current_player()
+        # print(col)
+        self.game.make_move(col)
+        if self.game.get_pos_change() == old_pos:
+            return
+        # cur_player = self.game.get_current_player()
+        info.t.config(text=self.game.get_players()[old_player][0])
+        color = "red" if old_player == 2 else "yellow"
+        row , col = self.game.get_pos_change()
+        self.p[row][col].changeCollor(color)
 
-            if self.p[row][col].fill == "red" or self.p[row][col].fill == "yellow":
-                self.p[row - 1][col].changeCollor(self.fill)
-                row_save = row
-                break
-
-            elif row == len(self.p) - 1:
-                self.p[row][col].changeCollor(self.fill)
-                row_save = row
-                break
-        print(row_save, " -", col)
-        if self.player == 1:
-            self.player = 2
-            info.t.config(text="red make a move")
-            self.fill = "red"
-
-        else:
-            # self.player == 2  # or only else
-            self.player = 1
-            info.t.config(text="yellow make a move")
-            self.fill = "yellow"
+        # row_save = 0
+        # for row in range(len(self.p)):
+        #     if self.p[0][col].fill == "red" or self.p[0][col].fill == "yellow":
+        #         return
+        #
+        #     if self.p[row][col].fill == "red" or self.p[row][col].fill == "yellow":
+        #         self.p[row - 1][col].changeCollor(self.fill)
+        #         row_save = row
+        #
+        #         break
+        #
+        #     elif row == len(self.p) - 1:
+        #         self.p[row][col].changeCollor(self.fill)
+        #         row_save = row
+        #
+        #         break
+        # print(row_save, " -", col)
+        # if cur_p ==
+        # if self.player == 1:
+        #     self.player = 2
+        #     info.t.config(text="red make a move")
+        #     self.fill = "red"
+        #
+        # else:
+        #     # self.player == 2  # or only else
+        #     self.player = 1
+        #     info.t.config(text="yellow make a move")
+        #     self.fill = "yellow"
 
         # self.winner((2, 2), (0, 1), "red2")
 
@@ -88,7 +103,7 @@ class Terrain(Canvas):
         move_x = 0
         move_y = 0
         for i in range(4):
-            self.p[(pos[0] + move_x) ][pos[1] + move_y].changeCollorWinner(collor)
+            self.p[(pos[0] + move_x)][pos[1] + move_y].changeCollorWinner(collor)
             move_y += direction[0]
             move_x += direction[1]
 
