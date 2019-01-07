@@ -66,7 +66,7 @@ class Game:#todo this class was gaven
     
     #---------------------------------------------------------------
     
-    def find_row_or_col_winner(matrix, row, col):
+def find_row_or_col_winner(matrix, row, col):
     if row == 1:
         check1 = len(matrix[0])
         check2 = len(matrix)
@@ -81,8 +81,8 @@ class Game:#todo this class was gaven
         col_index = 0
         string_check = ""
         for j in range(check2):
-            print("check row", row_index)
-            print("check col", col_index)
+            print("check row", row_index, "check col:", col_index)
+
             string_check += str(matrix[row_index + addY][col_index + addX])
             row_index += row
             col_index += col
@@ -90,15 +90,16 @@ class Game:#todo this class was gaven
             addX += 1
         else:
             addY += 1
-            #todo to add to return tup or list that shows from what location the winning 
+        # todo to add to return tup or list that shows from what location the winning
         if "rrrr" in string_check:
-            return "r"
+            return "r", (i, string_check.find("r"))
         if "yyyy" in string_check:
-            return "y"
-    return "n"
+            return "y", ((i, string_check.find("y")))
+    return "n", (-1, -1)  # defualt value of index of not found what we were looking for as excepted in the world
 
 
-a = [["x", "r", "x"], ["x", "r", "x"],["x","r","x"],["x","x","x","x"]]
+a = [["x", "r", "x", "x", "x", "x", "x"], ["x", "r", "x", "x", "x", "x", "x"], ["x", "r", "x", "x", "x", "x", "x"],
+     ["x", "r", "x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x", "x", "x"]]
 for i in a:
     print(i)
 
@@ -110,23 +111,25 @@ def side_checks(matrix, orientaion):
         if orientaion == 1:
             j = len(matrix[i]) - 1
             while (j > len(matrix) - 4):
-                #todo to add to return tup or list that shows from what location the winning 
+                # todo to add to return tup or list that shows from what location the winning
                 if (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
                     j - 3] == "r"):
-                    return "r"
+                    return "r" ,(i,j)#to check if returns the currect possition
                 elif (matrix[i][j] == matrix[i + 1][j - 1] == matrix[i + 2][j - 2] == matrix[i + 3][
                     j - 3] == "yellow"):
-                    return "y"
+                    return "y", (i,j)#to check if returns the currect possition
                 j -= 1
         else:
             for j in range(3):
                 if (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
                     j + 3] == "r"):
-                    return "r"
+                    return "r" , (i,j)#to check if returns the currect possition
                 elif (matrix[i][j] == matrix[i + 1][j + 1] == matrix[i + 2][j + 2] == matrix[i + 3][
                     j + 3] == "yellow"):
-                    return "y"
-    return "n"
+                    return "y", (i, j)  # to check if returns the currect possition
+
+    return "n",(-1,-1) #possition
+
 
 #------------------------------------------------------------------------------------------------
     
