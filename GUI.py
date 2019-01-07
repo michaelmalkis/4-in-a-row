@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import font
-from collors import Collors
 
 
 class Info(Frame):
@@ -29,6 +28,12 @@ class HolesInBoard(object):
         self.can.itemconfigure(self.HolesInBoard, fill=fill)
         self.fill = fill
 
+    def changeCollorWinner(self, fill):
+        self.can.itemconfigure(self.HolesInBoard, fill=fill, outline="light grey",width=5)
+        # Frame(root, highlightbackground="green", highlightcolor="green", highlightthickness=1, width=100, height=100, bd= 0)
+
+        self.fill = fill
+
 
 class Terrain(Canvas):
 
@@ -39,7 +44,6 @@ class Terrain(Canvas):
         self.player = 1
         self.fill = "yellow"
         self.p = []
-        self.perm = True
         for i in range(0, 340, int(400 / 6)):
             list_range = []
             for j in range(0, 440, int(500 / 7)):
@@ -50,39 +54,43 @@ class Terrain(Canvas):
         self.bind("<Button-1>", self.detCol)
 
     def detCol(self, event):
-        if self.perm:
-            col = int(event.x / 71)
-            # lig = 0
+        col = int(event.x / 71)
+        row_save = 0
+        for row in range(len(self.p)):
+            if self.p[0][col].fill == "red" or self.p[0][col].fill == "yellow":
+                return
 
-            lig = 0
-            # while lig < len(self.p):
-            for row in range(len(self.p)):
-                if self.p[0][col].fill == "red" or self.p[0][col].fill == "yellow":
-                    return
+            if self.p[row][col].fill == "red" or self.p[row][col].fill == "yellow":
+                self.p[row - 1][col].changeCollor(self.fill)
+                row_save = row
+                break
 
-                if self.p[row][col].fill == "red" or self.p[row][col].fill == "yellow":
-                    self.p[row - 1][col].changeCollor(self.fill)
-                    break
+            elif row == len(self.p) - 1:
+                self.p[row][col].changeCollor(self.fill)
+                row_save = row
+                break
+        print(row_save, " -", col)
+        if self.player == 1:
+            self.player = 2
+            info.t.config(text="red make a move")
+            self.fill = "red"
 
-                elif row == len(self.p) - 1:
-                    self.p[row][col].changeCollor(self.fill)
-                    break
+        else:
+            # self.player == 2  # or only else
+            self.player = 1
+            info.t.config(text="yellow make a move")
+            self.fill = "yellow"
 
-                # if self.p[row][col].fill != "red" and self.p[lig][col].fill != "yellow":
-                # lig += 1
+        # self.winner((2, 2), (0, 1), "red2")
 
-            if self.player == 1:
-                self.player = 2
-                info.t.config(text="red make a move")
-                self.fill = "red"
+    def winner(self, pos, direction, collor):
 
-            else:
-                # self.player == 2  # or only else
-                self.player = 1
-                info.t.config(text="yellow make a move")
-                self.fill = "yellow"
-            for i in self.p:
-                print(i)
+        move_x = 0
+        move_y = 0
+        for i in range(4):
+            self.p[(pos[0] + move_x) ][pos[1] + move_y].changeCollorWinner(collor)
+            move_y += direction[0]
+            move_x += direction[1]
 
 
 root = Tk()
@@ -112,6 +120,5 @@ def rein():
 
 
 Button(root, text="options", bg="pink", command=rein).grid(row=2, column=0, pady=10)
-
 
 root.mainloop()
