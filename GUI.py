@@ -30,7 +30,7 @@ class HolesInBoard(object):
         self.fill = fill
 
     def changeCollorWinner(self, fill):
-        self.can.itemconfigure(self.HolesInBoard, fill=fill, outline="light grey", width=5)
+        self.can.itemconfigure(self.HolesInBoard, fill=fill, outline="lime green", width=5)
         # Frame(root, highlightbackground="green", highlightcolor="green", highlightthickness=1, width=100, height=100, bd= 0)
 
         self.fill = fill
@@ -64,8 +64,16 @@ class Terrain(Canvas):
         # cur_player = self.game.get_current_player()
         info.t.config(text=self.game.get_players()[old_player][0])
         color = "red" if old_player == 2 else "yellow"
-        row , col = self.game.get_pos_change()
+        row, col = self.game.get_pos_change()
         self.p[row][col].changeCollor(color)
+        winner = self.game.get_winner()
+        print(winner)
+        if winner == "1":
+            print("yellow won")
+            self.winner(self.game.winner, "gold2")
+        if winner == "2":
+            print("red won")
+            self.winner(self.game.winner, "red3")
 
         # row_save = 0
         # for row in range(len(self.p)):
@@ -98,14 +106,10 @@ class Terrain(Canvas):
 
         # self.winner((2, 2), (0, 1), "red2")
 
-    def winner(self, pos, direction, collor):
-
-        move_x = 0
-        move_y = 0
-        for i in range(4):
-            self.p[(pos[0] + move_x)][pos[1] + move_y].changeCollorWinner(collor)
-            move_y += direction[0]
-            move_x += direction[1]
+    def winner(self, pos_winner, collor):
+        print(pos_winner)
+        for i in pos_winner:
+            self.p[i[0]][i[1]].changeCollorWinner(collor)
 
 
 root = Tk()
